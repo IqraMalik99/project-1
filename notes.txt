@@ -1,0 +1,3 @@
+.gitkeep is used because git dont keep track of empty folder.Thats why it is use in that folder so git keep track
+The exit code can be either 0 or 1. 0 means end the process without any failure and 1 means end the process
+with some failure. (server ko band krna running state ma na rahe)

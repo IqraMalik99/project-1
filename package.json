@@ -2,16 +2,20 @@
   "name": "project-1",
   "version": "1.0.0",
   "description": "a backened with chai code",
+  "type": "module",
   "main": "index.js",
-  "type":"module",
   "scripts": {
-    "run" :"nodemon src/index.js",
+    "dev": "nodemon -r dotenv/config   src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "IQRA",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "mongoose": "^8.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
   }
 }
