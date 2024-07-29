@@ -1,8 +1,20 @@
 import mongoose from "mongoose";
 import connectDb from './db/in.js'
+import dotenv from "dotenv"
+import { app } from './app.js'
+dotenv.config({
+  path: './env'
+})
 
-
-connectDb();
+connectDb()
+.then(()=>{
+    app.listen(process.env.PORT || 8000 ,function (){
+                console.log(`app is listen on port ${process.env.PORT} `);
+            });
+})
+.catch((err)=>{
+  console.log(`Something went wrong in db ${err}`)
+});
 
 
 
@@ -32,13 +44,7 @@ connectDb();
 
 
 // import { dbname } from "./constants.js";
-// import express from "express"
-// import dotenv from "dotenv"
-// dotenv.config({
-//   path: './env'
-// })
-// const app = express();
-
+//
 // ;(async ()=>{
 //   try {
 //    let connect = await mongoose.connect(`${process.env.MONGODB}/${dbname}`);
