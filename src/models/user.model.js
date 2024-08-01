@@ -6,7 +6,7 @@ dotenv.config({
     path: "./env"
 })
 
-const userSchema = Schema(
+const userSchema = new Schema(
     {
         username: {
             type: String,
@@ -31,7 +31,7 @@ const userSchema = Schema(
         },
         avatar: {
             type: String,
-            required: true
+            // required: true
         },
         coverImage: {
             type: String, // cloudinary url
@@ -56,7 +56,7 @@ const userSchema = Schema(
 )
 //METHODS
 userSchema.methods.genAccessToken = async function () {
-    return jwt.sign({
+    return   jwt.sign({
         _id: this._id,
         email: this.email,
         username: this.username,
@@ -91,7 +91,7 @@ userSchema.methods.ispasswordcorrect = async function (password) {
 userSchema.pre('save', async function (next) {
     if (this.isModified('password')) {
         try {
-            const salt = await bcrypt.genSalt(saltRounds);
+            const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(this.password, salt);
             this.password = hashedPassword;
         } catch (err) {
@@ -101,7 +101,8 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
-
+ const User = mongoose.model('User', userSchema);
+ export {User}
 // Other Middleware Types
 // function(){}  is used because arrow does not give ref of this ,next is used
 // Pre and Post Remove: Runs before or after a document is removed.

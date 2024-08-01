@@ -1,1 +1,3 @@
-export const dbname ="mydbname";
+
+ const dbname ="mydbname";
+ export {dbname}
