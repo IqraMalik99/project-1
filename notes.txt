@@ -3,3 +3,6 @@ The exit code can be either 0 or 1. 0 means end the process without any failure 
 with some failure. (server ko band krna running state ma na rahe)
 class : super()called parent constructor must give befor use this in child constructor the super has arguments 
 we can override parent function and use parent at the same time using super.anyfunc()
+
+ACESS AND RERESH TOKEN : ACESS TOKEN SHORT LIVE AND USED FOR AUTHENTICATION WHILE REFRESH
+ ARE LONG LIVE STORE ON DB AND  ON USER SIDE AND USED TO REFRESH ACESS TOKEN

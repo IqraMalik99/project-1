@@ -1,10 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-import dotenv from "dotenv"
-dotenv.config({
-    path: "./env"
-})
+// import dotenv from "dotenv"
+// dotenv.config({
+//     path: "./env"
+// })
 
 const userSchema = new Schema(
     {
@@ -31,7 +31,7 @@ const userSchema = new Schema(
         },
         avatar: {
             type: String,
-            // required: true
+            required: true
         },
         coverImage: {
             type: String, // cloudinary url
@@ -56,17 +56,20 @@ const userSchema = new Schema(
 )
 //METHODS
 userSchema.methods.genAccessToken = async function () {
-    return   jwt.sign({
+    console.log("1");
+     const token = await  jwt.sign({
         _id: this._id,
         email: this.email,
         username: this.username,
         fullName: this.fullName
     },
-        process.env.SECRET-ACCESS,
-        {
-            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
-        }
+      "accessSecret"
+        // {
+        //     expiresIn: process.env.ACCESS_TOKEN_EXPIRY
+        // }
     )
+    console.log("22")
+    return token
 }
 
 userSchema.methods.generateRefreshToken = function(){
@@ -75,7 +78,7 @@ userSchema.methods.generateRefreshToken = function(){
             _id: this._id,
             
         },
-        process.env.SECRET-REFRESH,
+        "refreshToken",
         {
             expiresIn: process.env.REFRESH_TOKEN_EXPIRY
         }

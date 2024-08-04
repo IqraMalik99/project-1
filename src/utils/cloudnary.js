@@ -12,7 +12,7 @@ const uploadCloud= async (localFile)=>{
             resource_type : "auto",
         })
         console.log(`file upload sucessfully ${responce}`);
-        fs.unlink(localFile, (err) => {
+        fs.unlinkSync(localFile, (err) => {
             if (err) {
               console.error(`Error deleting local file: ${err}`);
             } else {
@@ -21,7 +21,7 @@ const uploadCloud= async (localFile)=>{
           });
         return responce
     } catch (error) {
-        fs.unlink(localFile);
+        fs.unlinkSync(localFile);
         console.log(`having error in uploadCloud ${error}`);
         return null
     }
