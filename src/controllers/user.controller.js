@@ -47,8 +47,8 @@ let userController = asyncHandler(async (req, res, next) => {
   if (ExitedUser) {
     throw new ApiError(400, "User already registered")
   }
-
-  console.log(req.files);
+// console.log("my files are ::::::")
+//   console.log(req.files);
   let avatarLocalpath = req.files?.avatar[0].path;
   if (!avatarLocalpath) {
     throw new ApiError(400, " avatar is required")
