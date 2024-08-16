@@ -60,7 +60,7 @@ let publishAVideo = asyncHandler(async (req, res) => {
     if (!thumbnailpath) {
         throw new ApiError(400, " ThumbNail is required");
     }
-    let cloudVideoFile = await uploadCloud(videoFileName);
+    let cloudVideoFile = await uploadCloud(videoFileName);        
     let cloudThumbNail = await uploadCloud(thumbnailpath);
     if (!cloudThumbNail) {
         throw new ApiError(400, "not having url of cloudnairy thumbnail")
@@ -100,7 +100,7 @@ let getVideoById = asyncHandler(async (req, res) => {
 let updateVideo = asyncHandler(async (req, res) => {
     let { videoId } = req.params;
     let{title,description}=req.body;
-    if(!(title & description)){
+    if(!(title && description)){
         throw new ApiError(400,"not having details for update")
     }
     let thumbnailpath =req.file?.path;
@@ -112,7 +112,7 @@ let updateVideo = asyncHandler(async (req, res) => {
    if(!video){
     throw new ApiError(400,"not getting video by id for update");
    }
-   let thumbnailurl = await upload(thumbnailpath);
+   let thumbnailurl = await uploadCloud(thumbnailpath);
    video.thumbnail=thumbnailurl.url
    video.title=title;
    video.description=description;
@@ -147,5 +147,11 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
     res.status(200).json(new Responce(200,video,"sucessfully toogle publised"))
 })
 export {
-    publishAVideo
+    publishAVideo,
+    getAllVideos,
+    getVideoById,
+    updateVideo,
+    deleteVideo,
+    togglePublishStatus
 }
+

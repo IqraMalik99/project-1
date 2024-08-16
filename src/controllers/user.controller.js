@@ -69,14 +69,15 @@ let userController = asyncHandler(async (req, res, next) => {
     password,
     avatar: avatarUpload.url,
     coverImage: coverImageUpload ? coverImageUpload.url : ""
+    
   })
-
+let {accessToken, refreshToken} =genAcessAndRefreshToken(usercreation._id);
   let getuser = await User.findOne({ _id: usercreation._id }).select("-password -refreshToken");
   console.log(getuser)
   if (!getuser) {
     throw new ApiError(400, "Something went wrong in db create user ")
   }
-  console.log("Done");
+  
   return res.status(200).json(
     new Responce(200, getuser, "User Sucessfully registered")
   )
@@ -85,9 +86,9 @@ let userController = asyncHandler(async (req, res, next) => {
 
 let login = asyncHandler(async (req, res, next) => {
   let { email, username, password } = req.body;
-  if (!(email || password)) {
-    throw new ApiError(400, "username or email is required");
-  }
+  // if (!(email || password)) {
+  //   throw new ApiError(400, "username or email or password is required");
+  // }
   let user = await User.findOne({
     $or: [{ username }, { email }]
   })
