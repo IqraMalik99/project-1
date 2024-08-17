@@ -6,3 +6,44 @@ we can override parent function and use parent at the same time using super.anyf
 
 ACESS AND RERESH TOKEN : ACESS TOKEN SHORT LIVE AND USED FOR AUTHENTICATION WHILE REFRESH
  ARE LONG LIVE STORE ON DB AND  ON USER SIDE AND USED TO REFRESH ACESS TOKEN
+// moongose agregtion pagination
+
+it return like  this in .then {
+  "docs": [ /* Array of documents for the current page */ ],
+  "totalDocs": 100, // Total number of documents matching the query
+  "limit": 10, // Number of documents per page
+  "page": 1, // Current page number
+  "totalPages": 10, // Total number of pages
+  "hasNextPage": true, // Boolean indicating if there is a next page
+  "hasPrevPage": false, // Boolean indicating if there is a previous page
+  "nextPage": 2, // Next page number (or null if there isn’t one)
+  "prevPage": null // Previous page number (or null if there isn’t one)
+}
+
+    const options = {
+        page,
+        limit,
+        customLabels: {
+            docs: 'comments',
+            totalDocs: 'totalComments',
+        },
+    };
+
+    // Use aggregatePaginate to paginate the results
+    const paginatedResults = await Comment.aggregatePaginate(aggregationPipeline, options);
+
+Model.aggregatePaginate(aggregate, options)
+  .then(function (result) {
+    // result.docs
+    // result.totalDocs = 100
+    // result.limit = 10
+    // result.page = 1
+    // result.totalPages = 10
+    // result.hasNextPage = true
+    // result.nextPage = 2
+    // result.hasPrevPage = false
+    // result.prevPage = null
+  })
+  .catch(function (err) {
+    console.log(err);
+  });

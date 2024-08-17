@@ -2,10 +2,10 @@ import mongoose, { isValidObjectId } from "mongoose"
 import { subscription } from "../models/subscription.model.js"
 import { ApiError } from "../utils/ApiError.js"
 import { Responce } from "../utils/Responce.js"
+import { AsyncHandler } from "../utils/AsyncHandlers.js"
 
 
-
-const toggleSubscription = asyncHandler(async (req, res) => {
+const toggleSubscription = AsyncHandler(async (req, res) => {
     const { channelId } = req.params
     if (!(isValidObjectId(channelId))) {
         throw new ApiError(400, "not having correct channel id for toogle subscription")
@@ -43,7 +43,7 @@ const toggleSubscription = asyncHandler(async (req, res) => {
 })
 
 // controller to return subscriber list of a channel
-const getUserChannelSubscribers = asyncHandler(async (req, res) => {
+const getUserChannelSubscribers = AsyncHandler(async (req, res) => {
     const { channelId } = req.params
     if (!isValidObjectId(channelId)) {
         throw new ApiError(404, "not having correct channnel in subscribers")
@@ -90,7 +90,7 @@ const getUserChannelSubscribers = asyncHandler(async (req, res) => {
 })
 
 // controller to return channel list to which user has subscribed
-const getSubscribedChannels = asyncHandler(async (req, res) => {
+const getSubscribedChannels = AsyncHandler(async (req, res) => {
     const { subscriberId } = req.params;
     if (!isValidObjectId(subscriberId)) {
         throw new ApiError(400, "wrong subscriberId");

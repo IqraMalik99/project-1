@@ -1,5 +1,5 @@
 
-import { asyncHandler } from "../utils/AsyncHandlers.js"
+import { AsyncHandler } from "../utils/AsyncHandlers.js"
 import { ApiError } from "../utils/ApiError.js"
 import { User } from "../models/user.model.js"
 import { uploadCloud } from "../utils/cloudnary.js"
@@ -28,7 +28,7 @@ let genAcessAndRefreshToken = async (userid) => {
     throw new ApiError(400, "Error is generating token");
   }
 }
-let userController = asyncHandler(async (req, res, next) => {
+let userController = AsyncHandler(async (req, res, next) => {
   // get user details from frontend
   // validation - not empty
   // check if user already exists: username, email
@@ -84,7 +84,7 @@ let {accessToken, refreshToken} =genAcessAndRefreshToken(usercreation._id);
 
 })
 
-let login = asyncHandler(async (req, res, next) => {
+let login = AsyncHandler(async (req, res, next) => {
   let { email, username, password } = req.body;
   // if (!(email || password)) {
   //   throw new ApiError(400, "username or email or password is required");
@@ -119,7 +119,7 @@ let login = asyncHandler(async (req, res, next) => {
 
 })
 
-let logout = asyncHandler(async (req, res, next) => {
+let logout = AsyncHandler(async (req, res, next) => {
   let user = req.user;
   let getUser = await User.findById(user._id);
   if (!getUser) {
@@ -136,7 +136,7 @@ let logout = asyncHandler(async (req, res, next) => {
   )
 })
 
-const refershMyTokens = asyncHandler(async (req, res, neext) => {
+const refershMyTokens = AsyncHandler(async (req, res, neext) => {
   try {
     let commingrefreshtoken = req.cookies.refreshToken || req.body.refreshToken;   // in some time token is in body
     // console.log(`berfore refresh ${commingrefreshtoken}`);
@@ -180,7 +180,7 @@ const refershMyTokens = asyncHandler(async (req, res, neext) => {
   }
 
 })
-const changepassword = asyncHandler(async (req, res, next) => {
+const changepassword = AsyncHandler(async (req, res, next) => {
   let { oldpassword, newpassword } = req.body;
   let user = await User.findById(req.user?._id);
   if (!user) {
@@ -197,7 +197,7 @@ const changepassword = asyncHandler(async (req, res, next) => {
     .json(new Responce(200, {}, "Password changed successfully"))
 
 })
-const updateData = asyncHandler(async (req, res, next) => {
+const updateData = AsyncHandler(async (req, res, next) => {
   let { fullName, email } = req.body;
   if (!fullName || !email) {
     throw new ApiError(400, "All fields required for update data");
@@ -217,13 +217,13 @@ const updateData = asyncHandler(async (req, res, next) => {
   return res.status(200).json(new Responce(200, { updateUser }, "Done with update in data"));
 
 })
-const currentUser = asyncHandler(async (req, res, next) => {
+const currentUser = AsyncHandler(async (req, res, next) => {
   return res.status(200).json(
     new Responce(200, req.user, "Done with getting current user")
   )
 })
 
-let changeAvatar = asyncHandler(async (req, res, next) => {
+let changeAvatar = AsyncHandler(async (req, res, next) => {
   let user = req.user;
   let newavatar = req.file?.path;
   if (!newavatar) {
@@ -245,7 +245,7 @@ let changeAvatar = asyncHandler(async (req, res, next) => {
   return res.status(200).json(new Responce(200, getuser, "successfully change avatar"))
 })
 
-let changeCoverImage = asyncHandler(async (req, res, next) => {
+let changeCoverImage = AsyncHandler(async (req, res, next) => {
   let user = req.user;
   let newcover = req.file?.path;
   if (!newcover) {
@@ -267,7 +267,7 @@ let changeCoverImage = asyncHandler(async (req, res, next) => {
   return res.status(200).json(new Responce(200, getuser, "successfully change avatar"))
 })
 
-let userProfile = asyncHandler( async(req, res, next) => {
+let userProfile = AsyncHandler( async(req, res, next) => {
   let { username } = req.params;
   if (!username?.trim()) {
     throw new ApiError(400, "cannot get User from params user");
@@ -341,7 +341,7 @@ let userProfile = asyncHandler( async(req, res, next) => {
   }
   return res.status(200).json(new Responce(200, channel[0], "sucessfully give profile subscribers"))
 });
-let watchHistory = asyncHandler( async(req, res, next) => {
+let watchHistory = AsyncHandler( async(req, res, next) => {
   let history =await User.aggregate([
     {
       $match: {

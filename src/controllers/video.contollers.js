@@ -1,13 +1,13 @@
 import mongoose, { isValidObjectId } from "mongoose";
 import { Video } from "../models/video.model.js"
-import { asyncHandler } from "../utils/AsyncHandlers.js"
+import { AsyncHandler } from "../utils/AsyncHandlers.js"
 import { ApiError } from "../utils/ApiError.js"
 import { uploadCloud } from "../utils/cloudnary.js";
 import { User } from "../models/user.model.js";
 import { Responce } from "../utils/Responce.js";
 import { upload } from "../middleware/multer.middleware.js";
 
-let getAllVideos = asyncHandler(async (req, res) => {
+let getAllVideos = AsyncHandler(async (req, res) => {
     let { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query
     //TODO: get all videos based on query, sort, pagination
     page=parseInt(page,10);  // identifies which base system 
@@ -47,7 +47,7 @@ return res.status(200).json(
 )
 })
 
-let publishAVideo = asyncHandler(async (req, res) => {
+let publishAVideo = AsyncHandler(async (req, res) => {
     let { title, description } = req.body;
     if ([title, description].some((field) => field?.trim() === "")) {
         throw new ApiError(400, "All fields are requiredd");
@@ -84,7 +84,7 @@ let publishAVideo = asyncHandler(async (req, res) => {
         new Responce(200, createVideo, "Sucessfully published a video")
     )
 })
-let getVideoById = asyncHandler(async (req, res) => {
+let getVideoById = AsyncHandler(async (req, res) => {
     let { videoId } = req.params
     if(!isValidObjectId(videoId)){
         throw new ApiError(400,"not having correct id in get video by id")
@@ -97,7 +97,7 @@ let getVideoById = asyncHandler(async (req, res) => {
 })
 
 // apply multer middleware with sing field
-let updateVideo = asyncHandler(async (req, res) => {
+let updateVideo = AsyncHandler(async (req, res) => {
     let { videoId } = req.params;
     let{title,description}=req.body;
     if(!(title && description)){
@@ -119,7 +119,7 @@ let updateVideo = asyncHandler(async (req, res) => {
    await video.save();
    return res.status(200).json(new Responce(200,video,"sucesssfully update video"));
 });
-const deleteVideo = asyncHandler(async (req, res) => {
+const deleteVideo = AsyncHandler(async (req, res) => {
     let { videoId } = req.params
     //TODO: delete video
     if(!isValidObjectId(videoId)){
@@ -131,7 +131,7 @@ const deleteVideo = asyncHandler(async (req, res) => {
     }
     return res.status(200).json(new ApiError(200,video,"Sucessfully deleted  a video"));
 });
-const togglePublishStatus = asyncHandler(async (req, res) => {
+const togglePublishStatus = AsyncHandler(async (req, res) => {
     const { videoId } = req.params;
     if(!isValidObjectId(videoId)){
         throw new ApiError(400,"not having correct video id for toogleing");
