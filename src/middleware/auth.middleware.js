@@ -1,8 +1,8 @@
 import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
-import { asyncHandler } from "../utils/AsyncHandlers.js";
+import { AsyncHandler } from "../utils/AsyncHandlers.js";
 import jwt from "jsonwebtoken"
-const auth= asyncHandler(async (req,res,next)=>{
+const auth= AsyncHandler(async (req,res,next)=>{
    try {      
        if(!(req.cookies.accessToken)){
            throw new ApiError(400,"Not having token ");
