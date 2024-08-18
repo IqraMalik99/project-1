@@ -3,7 +3,7 @@ import { Like } from "../models/like.model"
 import { ApiError } from "../utils/ApiError"
 import { Responce } from "../utils/Responce"
 
-const toggleVideoLike = asyncHandler(async (req, res) => {
+const toggleVideoLike = AsyncHandler(async (req, res) => {
     const { videoId } = req.params
     //TODO: toggle like on video
     if (!req.user) {
@@ -29,7 +29,7 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
     return res.status(200).json(new Responce(200, document, "sucessfully toogle video"))
 })
 
-const toggleCommentLike = asyncHandler(async (req, res) => {
+const toggleCommentLike = AsyncHandler(async (req, res) => {
     const { commentId } = req.params
     //TODO: toggle like on comment
     if (!req.user) {
@@ -55,7 +55,7 @@ const toggleCommentLike = asyncHandler(async (req, res) => {
     return res.status(200).json(new Responce(200, document, "sucessfully toogle comment"))
 })
 
-const toggleTweetLike = asyncHandler(async (req, res) => {
+const toggleTweetLike = AsyncHandler(async (req, res) => {
     const { tweetId } = req.params
     //TODO: toggle like on tweet
     if (!req.user) {
@@ -82,7 +82,7 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
 }
 )
 
-const getLikedVideos = asyncHandler(async (req, res) => {
+const getLikedVideos = AsyncHandler(async (req, res) => {
     //TODO: get all liked videos
     if (!req.user) {
         throw new ApiError(404, "Unauthorized acess")
